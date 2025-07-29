@@ -1,3 +1,8 @@
+# PhenoMask
+
+This is a (soon-to-be) collection of scripts intended to manipulate files in the PhenoCam archive.
+All scripts are intended to be ran as a user on the HPC system. Running over a GVFS/SMB/etc mount *will* cause issues! **ALWAYS check for an up-to-date backup before running any script!**
+
 ## dateOffset.py
 
 This script moves all the selected images and offsets the file names by a given amount. This is useful if the timezone is set incorrectly on a particular camera for a specific length of time.
@@ -7,7 +12,7 @@ This shows you the results of your command, without actually modifying any data.
 
 The basic structure of the command is as follows:
 ```bash
-dateOffset.py [--negative] [--verbose] [--dry-run] [--overwrite] sitename startDate endDate offset
+dateOffset.py (--negative | --positive) [--verbose] [--dry-run] sitename startDate endDate offset
 ```
 
 Where `sitename` is the name of the site you want to modify, `startDate` is the first date to modify (YYYY-MM-DD format), `endDate` is the last date you want to modify (YYYY-MM-DD format), and `offset` is the amount of time to add or subtract (HH:MM format).
@@ -15,7 +20,10 @@ To subtract time from the original timestamp, use the `--negative` flag (i.e. a 
 It is **strongly discouraged** to use the `--overwrite` flag, as this can lead to data loss.
 
 ```bash
-./dateOffset.py --verbose --dry-run webbrc 2024-10-10 2024-11-12 08:00 --negative
+srun ./dateOffset.py --verbose --dry-run webbrc 2024-10-10 2024-11-12 08:00 --negative
 ```
 
 *Remember: time is based on the name of the file, NOT the timestamp in the image.*
+
+***
+
