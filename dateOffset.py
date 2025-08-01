@@ -9,8 +9,7 @@ from sys import stderr, exit
 
 
 # Path to the PhenoCam archive
-# FIXME
-ARCHIVE = "/scratch/zgv4/dateOffset/archive"
+ARCHIVE = "/projects/phenocam/data/archive/"
 
 
 parser = argparse.ArgumentParser(prog="dateOffset.py",
@@ -87,15 +86,22 @@ if "__main__" in __name__:
         print(f"Archive path: {ARCHIVE}\n")
 
     # Every file in the site dir
-    for root, dirs, files in walk(sitePath):
+    for root, dirs, files in walk(sitePath, topdown=True):
+        dirs.sort()
+        files.sort()
         for file in files:
             # Make sure the file is a JPEG, not center line
             if file.endswith(".jpg") and not "ROI" in file and not "cli" in file:
                 # IR images have a different file name
-                if "IR" in file:
-                    imageDate = datetime.strptime(file, args.sitename+'_IR_%Y_%m_%d_%H%M%S.jpg')
-                else:
-                    imageDate = datetime.strptime(file, args.sitename+'_%Y_%m_%d_%H%M%S.jpg')
+                try:
+                    if "IR" in file:
+                        imageDate = datetime.strptime(file, args.sitename+'_IR_%Y_%m_%d_%H%M%S.jpg')
+                    else:
+                        imageDate = datetime.strptime(file, args.sitename+'_%Y_%m_%d_%H%M%S.jpg')
+                except ValueError:
+                    if args.verbose > 0:
+                        print(f"!!! File does not follow standard naming: {file} (skipped)")
+                    continue
                 # Check that date is within range
                 if startDate <= imageDate <= endDate:
                     # Add the delta to the image time
