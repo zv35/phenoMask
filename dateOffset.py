@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 import argparse
 from os import path, walk, rename
 from sys import stderr, exit
-#import shutil # Removed for data saftey
 
 
 # Path to the PhenoCam archive

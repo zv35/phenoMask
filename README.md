@@ -1,7 +1,13 @@
 # PhenoMask
 
-This is a (soon-to-be) collection of scripts intended to manipulate files in the PhenoCam archive.
+This is a collection of scripts intended to manipulate files in the PhenoCam archive.
 All scripts are intended to be ran as a user on the HPC system. Running over a GVFS/SMB/etc mount *will* cause issues! **ALWAYS check for an up-to-date backup before running any script!**
+
+## cli.py
+
+At this time, this is the primary script to be ran by the end user. Simply envoke with python and follow the instructions to perform your desired action.
+
+***
 
 ## dateOffset.py
 
@@ -24,6 +30,4 @@ srun ./dateOffset.py --verbose --dry-run webbrc 2024-10-10 2024-11-12 08:00 --ne
 ```
 
 *Remember: time is based on the name of the file, NOT the timestamp in the image.*
-
-***
 
